@@ -198,11 +198,11 @@ class GymSFM(gym.Env):
             elif out_of_map : state = 2
             elif self.total_step > self.step_limit : state = 3
             elif is_collision : state = 4
-            reward = self.get_reward(state, *update_result[1:], *action)
+            reward = self.get_reward(state, *update_result[1:4], *action)
         self.world.Step(1.0/self.fps, 0, 0)
         self.total_step += 1
 
-        return obs, reward, state, {'total_step':self.total_step}
+        return obs, reward, state, self.agent.pose, update_result[-1], {'total_step':self.total_step}
 
     def get_reward(self, state, dis, angle, ddis, v, omega):
         reward = 0
